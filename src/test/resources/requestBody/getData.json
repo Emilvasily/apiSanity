@@ -1,0 +1,8 @@
+{
+  "requestNumber": "12345",
+  "providerName": "reception",
+  "sessionData": {
+    "userId": "ABC1234",
+    "domain": "inventory"
+  }
+}

@@ -1,0 +1,63 @@
+variables:
+#  GIT_CURL_VERBOSE: 1
+#  GIT_SSL_NO_VERIFY: "true"
+
+stages:
+  - maven tests
+  - allure generate
+  - nginx store
+
+maven-test:
+  stage: maven tests
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "push"
+      when: always
+  script:
+    - echo "Let's start our tests"
+    - docker run -i --rm --name sanityapi-$CI_JOB_ID -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven:3.8.5-apidependencies mvn clean test
+  allow_failure: true
+  artifacts:
+    paths:
+      - target/allure-results
+      - target/results.json
+    expire_in: 1 day
+
+allure-report:
+  stage: allure generate
+  dependencies:
+    - maven-test
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "push"
+      when: always
+  script:
+    - echo "Let's create allure reports"
+    - docker cp nginx-allure-history:/usr/share/nginx/html/history "$(pwd)"/target/allure-results
+    - sed -i -e 's/_CI_JOB_ID/$CI_JOB_ID/g;s/_CI_PIPELINE_URL/$CI_PIPELINE_URL/g' src/test/resources/executor.json; cp src/test/resources/executor.json "$(pwd)"/target/allure-results
+    - docker run -i --rm --name allure-reports-$CI_JOB_ID -v "$(pwd)"/target:/home/allure/report -w /home/allure/report emilvas/asanlogin:allure-base allure generate -c
+    - docker cp "$(pwd)"/target/allure-report/history nginx-allure-history:/usr/share/nginx/html/
+  allow_failure: true
+  artifacts:
+    paths:
+      - target/allure-report
+    expire_in: 1 day
+
+nginx-store:
+  stage: nginx store
+  dependencies:
+    - allure-report
+    - maven-test
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "push"
+      when: always
+  script:
+    - docker build -t sanityapi:$CI_JOB_ID .
+    - docker run -d --rm --name nginx-allure-$CI_JOB_ID -P sanityapi:$CI_JOB_ID
+  after_script:
+    - echo "Let's start allure report in docker container"
+    - sed -i "s/_CI_COMMIT_BRANCH/$CI_COMMIT_BRANCH/g" target/results.json
+    - sed -i "s|_CI_PIPELINE_URL|$CI_PIPELINE_URL|g" target/results.json
+    - sed -i "s/_CI_PIPELINE_ID/$CI_PIPELINE_ID/g" target/results.json
+    - sed -i "s/_CI_PIPELINE_SOURCE/$CI_PIPELINE_SOURCE/g" target/results.json
+    - allurePort=`n=0; until [ "$n" -ge 3 ]; do docker inspect --format='{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' nginx-allure-$CI_JOB_ID && break; n=$((n+1)); sleep 10; done`; sed -i "s/_allureport/$allurePort/g" target/results.json;
+    - 'curl -X POST -H "Content-type: application/json" -H "Accept: */*" -d "@target/results.json" http://10.0.0.2:45000/sanity/api'
+  allow_failure: true

@@ -1,0 +1,35 @@
+{
+    "url": "http://10.0.0.2:8080",
+    "services": {
+        "GetAccount": {
+            "service_path": "/api/v2/getAccount",
+            "file_path": "src/test/resources/requestBody/getAccount.json",
+            "status": 200,
+            "body": [
+                "account.id",
+                "123"
+            ],
+            "execution_time": 1000
+        },
+        "GetInfo": {
+            "service_path": "/api/v2/getInfo",
+            "file_path": "src/test/resources/requestBody/getInfo.json",
+            "status": 200,
+            "body": [
+                "allInfo.country.city",
+                "Baku"
+            ],
+            "execution_time": 1000
+        },
+        "GetData": {
+            "service_path": "/api/v2/getData",
+            "file_path": "src/test/resources/requestBody/getData.json",
+            "status": 200,
+            "body": [
+                "allData.bank",
+                "ATB"
+            ],
+            "execution_time": 1000
+        }
+    }
+}

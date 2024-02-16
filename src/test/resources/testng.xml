@@ -1,0 +1,82 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="alphaAPIRegressionTesting" verbose="10" >
+    <listeners>
+        <listener class-name="automation.api.regression.tests.listeners.Listener"/>
+    </listeners>
+    <test name="alphaAPIRegression">
+        <classes>
+            <class name="automation.api.regression.tests.SuiteSetup"/>
+            <class name="automation.api.regression.tests.GetPersonData">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+            <class name="automation.api.regression.tests.GetData">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+            <class name="automation.api.regression.tests.GetInfo">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+            <class name="automation.api.regression.tests.GetLookUpItemDataByList">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+            <class name="automation.api.regression.tests.GetMenus">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+            <class name="automation.api.regression.tests.GetDistricts">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+            <class name="automation.api.regression.tests.GetAccount">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+            <class name="automation.api.regression.tests.executeReport.graphContractStatsEmployeeDetailsResponse">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+            <class name="automation.api.regression.tests.executeReport.graphContractStatsEmployerResponse">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+            <class name="automation.api.regression.tests.executeReport.graphStaffStatsResponse">
+                <methods>
+                    <include name="getResponseStatusAsIndicated"/>
+                    <include name="getResponseValidate"/>
+                    <include name="getResponseLessThanIndicated"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

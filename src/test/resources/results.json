@@ -1,0 +1,13 @@
+{
+  "allurePort": "_allureport",
+  "failedCount": 0,
+  "successCount": 0,
+  "skippedCount": 0,
+  "pipelineCommitBranch": "_CI_COMMIT_BRANCH",
+  "pipelineSource": "_CI_PIPELINE_SOURCE",
+  "pipelineURL": "_CI_PIPELINE_URL",
+  "pipelineID": "_CI_PIPELINE_ID",
+  "errors": "",
+  "content": "",
+  "channelEnv": "test"
+}

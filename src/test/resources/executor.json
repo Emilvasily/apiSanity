@@ -1,0 +1,5 @@
+{
+  "name": "Gitlab-Runner",
+  "buildName": "_CI_JOB_ID",
+  "buildUrl": "_CI_PIPELINE_URL"
+}
